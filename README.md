@@ -1,2 +1,2 @@
-# Introducci-n-a-Git
+# Introducción a Git
 Comandos Basicos
