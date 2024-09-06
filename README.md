@@ -4110,6 +4110,93 @@
 
 
 
+|| Practica
+
+	Git almacena versiones de nuestro código fuente. 
+		
+	Es utilizado en proyectos colaborativos. 
+	
+	Ofrece un historial de versiones para poder retrotraer el código por si algo sale mal. 
+	
+	Mantener varias versiones en paralelo y después poder unirlos. 
+	
+	 
+	Comando git: 
+		
+		Muestra un resumen de las herramientas que posee. 
+		
+	Subcomandos: 
+		
+		Controlamos el programa por medio de otro comando además de git. 
+		
+		git subcomando o git -subcomando
+		
+	git init: 
+		
+		Crea un repo git 
+		
+		Es una carpeta que está oculta. 
+		
+		
+		Copias de seguridad: 
+			
+			Clonar un repo.
+			
+			Almacenarlo en la nube de GitHub o GitLab, etc. 
+			
+			O Sincronizarlo directamente con estos servicios. 
+			
+	
+	git status: 
+		
+		Nos muestra información como: 
+		
+		rama/branch
+		
+		rama actualizada
+		
+		cambios/commit en el repo git. 
+		
+		modificaciones no registrada/untracked
+		
+
+	Commit: 
+	
+		La idea es almacenar los cambios concretos que hagamos en el repo. 
+		
+		
+		git add: 
+		
+			Registra los cambios. 
+			
+		
+		De untracked a staged: 
+			
+			git add 'nombre del archivo'
+			
+			
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
