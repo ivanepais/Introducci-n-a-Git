@@ -4175,11 +4175,85 @@
 			git add 'nombre del archivo'
 			
 			
-		
-		
+		Cambios a ser confirmados/changes to committed: 
 		
 
+		git commit: 
+		
+			Abre un espacio para escribir. 
+			
+			Debemos describir significativamente que contiene el cambio. 
+			
+			Nos mostrará en que rama se hizo el commit
+			
+			También el número. 
+		
+		
+			git status: 
+			
+				Si no hay nada, va a decir que el repo está limpio. 
+				
+				
 
+	Working Directory: 
+		
+		
+		git log: 
+			
+			Muestra una lista de commits
+			
+			Muestra el número de hash sha1
+			
+			sha1 es un algoritmo de suma de comprobación. 
+			
+			Crea un hash para el contenido de cada commit. 
+			
+			Cada commit tiene un identificador distinto. 
+			
+			Por cuestiones de seguridad, el hash se genera a partir del mensaje del cambio y los archivos. 
+			
+			Si alguien quiere intenta modificar un archivo, tendría que cambiar el hash. 
+			
+			
+		git status: 
+			
+			Puede que nos marque el working directory. 
+			
+			Es la carpeta donde podemos hacer modificaciones. 
+			
+			Si nos dice que está limpio es porque contiene los archivos ya creados. 
+			
+			
+		ls: 
+		
+			Podemos comprobar los archivos del directorio. 
+			
+			
+		Si hacemos cambios, git status lo detectará. 
+		
+		
+		git diff: 
+			
+			Podemos ver en detalle lo que hemos modificado. 
+			
+			Lo que está y lo que no está en el Staged. 
+			
+			Las lineas verdas son las agregadas. 
+			
+			Las lineas rojas las eliminadas. 
+			
+		
+		git add . 
+			
+			Metemos los cambios de todos los archivos. 
+			
+			
+		git add 'nombre del archivo'
+		
+			Mete los cambios por separado. 
+			
+			
+		
 
 
 
