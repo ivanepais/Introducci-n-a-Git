@@ -4253,7 +4253,45 @@
 			Mete los cambios por separado. 
 			
 			
+		stage: 
 		
+			Area temporal para los cambios en los archivos. 
+			
+			Lo notificamos con git add. 
+			
+		
+		Si no notificamos los cambios con git add, no entran en Stage. 
+		
+		Quedan invisibles. 
+		
+		Podemos ver con git diff. 
+		
+		Los cambios verdes estan en Stage Area. 
+		
+		Los cambios rojos estan en 
+		
+		Si usamos git commit, solo tomará los cambios en stage. 
+		
+		Que previamente metimos con git add. 
+		
+	
+	git add: 
+	
+		Incluso podemos ignorar archivos, para no incluirlos en el repo. 
+		
+		
+	Identificador de commits: 
+	
+		Puede servir para verificar si nos olvidamos cambios. 
+		
+		También sirve si queremos revertir cambios. 
+		
+		
+	Revertir commits para incluir cambios olvidados: 
+		
+		git add index 
+		
+		git commit --amend
 
 
 
