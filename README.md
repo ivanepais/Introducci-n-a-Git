@@ -4125,11 +4125,13 @@
 		
 		Muestra un resumen de las herramientas que posee. 
 		
+		
 	Subcomandos: 
 		
 		Controlamos el programa por medio de otro comando además de git. 
 		
 		git subcomando o git -subcomando
+		
 		
 	git init: 
 		
@@ -4287,13 +4289,1865 @@
 		También sirve si queremos revertir cambios. 
 		
 		
+	
 	Revertir commits para incluir cambios olvidados: 
 		
-		git add index 
+		git add archivo 
 		
 		git commit --amend
 
+		Cambiará el identificador del commit. 
+		
+		Es un detalle de seguridad, si alguien quiere incluir cosas en cambios anteriores. 
+		
+		Solo podemos hacer un amend con el anterior. 
+		
+		Dado que cada commit está conectado anterios-siguiente. 
+		
+		
+	Deshacer cambios antes de git add: 
+	
+		Modificación sin haber hecho git add nombre archivo. 
+		
+		Lo chequeamos con git status y git diff. 
+		
+		
+	
+	git checkout -- nombre archivo: 
+	
+		Recuperamos el archivo como estaba antes. 
+		
+		
+		
+	Deshacer cambios despues git add: 
+		
+		git reset HEAD nombre_de_archivo
+		
+		HEAD es el último commit de la rama actual. 
+		
+		El cambio con git add se ha sacado de stage/unstaged. 
+		
+		Ahora si podemos hacer git checkout -- nombre_de_archivo
+		
+		
+		
+	Deshacer commit: 
+		
+		Anteriormente eliminamos cambios en locales (sin git add). 
+		
+		Y cambios en el stage (git add). 
+		
+		Antes de un commit. 
+		
+		
+		Necesitamos acceder al número de commit con git log. 
+		
+		O también con git log --oneline 
+		
+		Si escribimos git log -- oneline o git log -- one line, no lanza el comando. 
+		
+		O git log --oneline | cat. 
+		
+		
+		Copiamos los primeros 7 números del hash. 
+		
+		git reset codigo_commit y volvemos al commit anterior o bueno. 
+		
+		con git log --oneline chequeamos que ya no tenemos ese commit. 
+		
+		con git status vemos lo que está pasando con el archivo. 
+		
+		con git diff vemos los cambios que hay. 
+		
+		Falta hacer git checkout -- nombre_de_archivo para sacarlo del stage. 
+		
+		
+		git reset solo es recomendable de forma local. 
+		
+		Es un comando destructivo para trabajar cooperativamente. 
+		
+		Aunque tiene varios modos de funcionamiento. 
+		
+		
+		git reset --hard: 
+		
+			Elimina los cambios tantos del stage (git add) como local (amtes git add). 
+			
+			Cuando hacemos git status nos mostrará el area limpia. 
+			
+			Si entramos al archivo, volverá al estado antes del commit. 
+			
+			git reset --hard 7numero_commit
+		
+		
+		git reset --soft: 
+		
+			Nos va a dejar los cambios en el stage (git add). 
+			
+			git reset --soft 7numero_commit
+			
+			Aquí es donde decidimos si volver atras o no. 
+			
+			git checkout -- nombre_de_archivo
+		
+		
+			
+	git revert: 
+	
+		Revierte un commit. 
+		
+		Se usa normalmente para evitar los problemas de sincronización de git reset. 
+		
+		Deberiamos hacer un commit por cada cambio y no muchos cambios y después un commit. 
+		
+		Con git diff podemos ver las diferencias entre head (ultimo commit)
+		
+		y entre el archivo local. 
+		
+		
+		Con git diff podemos ver la diferencia entre dos commits. 
+		
+		Necesitamos sus primeros 7 numeros. 
+		
+		git diff numero_commit1 numero_commit2
+		
+		En rojo aparece lo que se elimino y en verde lo que lo sustituyo. 
+		
+		
+		git revert tratará las lineas agregadas y quitadas. 
+		
+		Las quitadas las vuelve a meter y las agregadas las saca del repo. 
+		
+		
+		HEAD es el puntero que apunta al commit que tenemos en revision. 
+		
+		Es el que usamos en el working directory para hacer cambios, agregar cosas, etc. 
+		
+		
+		Si usamos git log --onelne --decorate
+		
+		Sirve para ver los nombre de los punteros. 
+		
+		Puede ser Head que apunta al último commit en el que estamos trabajando. 
+		
+		Y Master o Main que es el puntero de rama. 
+		
+		
+		Podemos mover este puntero HEAD hacia otros commits. 
+		
+		Si usamos git diff HEAD~1
+		
+		Quiere decir un commit antes que HEAD. 
+		
+		O git diff HEAD~2: dos commits antes que HEAD. 
+		
+		
+		Si usamos git diff HEAD~1 HEAD 
+		
+		Compara el ultimo commit con su anterior. 
+		
+		Parecido a git diff numero_commit1 numero_commit2
+		
+		Pero desde head. 
+		
+		
+		Podemos usar git revert numero_commit
+		
+		o git revert HEAD: revertirá el commit al que apuntaba HEAD. 
+		
+		Si verificamos con git diff HEAD~1 HEAD 
+		
+		Vemos las lineas que quito y agrego o las que revertio. 
+		
+		
+	
+	Revertir varios commits al mismo tiempo:
+	
+		Podemos hacer git revert numero_commit y git revert numero_commit
+		
+		Por cada commit que revertimos nos va a crear otro. 
+		
+		
+		Podemos hacer que no haga estos commits. 
+		
+		Dejaría los cambios en el stage. 
+		
+		git revert --no commit HEAD 
+		
+		git revert --no commit HEAD~1 
 
+		Chequeamos el status, nos dirá que lo tenemos que hacer. 
+		
+		git revert --continue
+		
+		Nos abrirá para escribir el mensaje del documento de cambios
+		
+		Podemos escribir un mensaje sobre cuales commits quitamos. 
+		
+		git log --oneline
+		
+	
+	
+	Branches: 
+	
+		Con git log --oneline --graph
+		
+		Podemos mostrar un gráfico de los commits en una linea. 
+		
+		Sirve para ver la relación entre estos commits. 
+		
+		Se basan en antecedente-consecuente. 
+		
+		El primer commit aparecerá abajo de todo. 
+		
+		Su sucesor aparecerá arriba. 
+		
+		
+		Con git log --oneline --graph --decorate 
+		
+		Examinamos los punteros HEAD, Master/Main. 
+		
+		Son en los que estamos trabajando. 
+		
+		
+		Con git podemos tener una linea de desarrollo principal. 
+		
+		O una o varias lineas paralelas. 
+		
+		A partir de algún punto, podemos dividir o separar
+		
+		por un camino distinto el proyecto. 
+		
+		
+		git branch
+		
+		Nos muestra una lista de ramas. 
+		
+		Podemos crear una rama feature para dejar la rama Master/Main limpia. 
+		
+		Al terminar feature, podemos ntegrarla o fusionarla. 
+		
+		
+		git branch nombre_rama
+		
+		git branch feature
+		
+		Con git branch podemos verificar todas las ramas de nuestro proyecto. 
+		
+		El puntero y el color verde en la rama, marca la que estamos trabajando. 
+		
+		git status tambien muestra la rama actual. 
+		
+		
+		
+		git checkout 
+		
+		Como vimos, podemos retrotraer git add o los cambios locales. 
+		
+		O cambiar de rama. 
+		
+		git checkout nombre_rama
+		
+		git checkout feature. 
+		
+		
+		Lo verificamos con git branch o git status. 
+		
+		
+		Podemos crear una rama nueva y cambiarnos directamente. 
+		
+		Volvemos a master/main con git checkout main/master
+		
+		git checkout -b
+		
+		Sirve para crear una rama y pasarnos directamente. 
+		
+		git checkout -b nombre_rama
+		
+		git checkout -b feature-new-content
+		
+		
+		Podemos cambiar el nombre de las ramas o eliminarlas. 
+		
+		Volvemos a master/main git checkout master/main
+		
+		
+		Con git branch -m nombre_rama nuevo_nombre_rama
+		
+		Con git branch -d nombre_rama, eliminamos la rama. 
+		
+		
+		Con git branch -h
+		
+		Nos da una lista de comandos para branch. 
+		
+		
+	
+	Trabajar con varias ramas a la vez: 
+	
+		Enviar commits o mantener varios estados a la vez. 
+	
+		Nos movemos a la rama en la cual queremos trabajar. 
+		
+		git checkout feature
+		
+		
+		Despues de hacer modificaciones en varios archivos. 
+		
+		Podemos hacer git add . 
+		
+		git commmit
+		
+		(mensaje descriptivo de titulo
+		
+		 y mensaje detallado sobre cambios en el parrafo)
+
+		
+		Ahora nos encontramos con un escenario nuevo. 
+		
+		git log --oneline --decorate 
+		
+		Tenemos: 
+		
+		(HEAD -> feature) mensaje descriptivo de titulo
+		
+		(master) mensaje descriptivo de titulo
+		
+		
+		El commit actual de feature está siendo apuntado por HEAD
+		
+		Y Head a la vez está apuntando a la rama feature
+		
+		Abajo tenemos a un commit apuntado por master/main. 
+		
+		
+		Las ramas master/main y feature apuntan a dos commit distintos. 
+		
+		Si nos cambiamos a master. 
+		
+		git checkout master
+		
+		Todos los archivos en los que trabajamos en feature
+		
+		Se encuentran limpios
+		
+		Al cambiar de rama, los archivos en working directory
+		
+		Son distintos, tienen otras modificaciones o no. 
+		
+		
+		Tenemos que dejar el directorio tal cual estaba
+		
+		En el nuevo HEAD
+		
+		git log --oneline --decorate 
+		
+		(HEAD -> master) mensaje
+		
+		
+		Volvemos a la rama feature
+		
+		git checkout feature 
+		
+		
+		Si volvemos a master/main 
+		
+		git checkout main
+		
+		
+		Podemos cambiar el proyecto en produccion si surgio urgencia. 
+		
+		Creamos una nueva rama para ello
+		
+		git checkout -b nombre-nueva-rama-arreglo
+		
+		Agreamos cambios al archivo o los archivos
+		
+		git add archivo o git add . 
+		
+		git commit 
+		
+		(mensaje)
+		
+		
+		Entramos en una nueva situación. 
+		
+		git log --oneline --decorate 
+		
+		(HEAD->rama-arreglo) mensaje
+		(master) mensaje 
+		
+		Quiere decir que estamos trabajando en arreglo. 
+		
+		arreglo incluye el ultimo commit de master/main
+		
+		
+		Nos pasamos de nuevo a master 
+		
+		git checkout master/main 
+		
+		Vemos una situación distinta 
+		
+		(HEAD->master) mensaje 
+
+        Solo tenemos una rama master y sus commits. 
+        
+        
+        Solo en la rama paralela aparece master y ella misma. 
+        
+        
+		Podemos ver todos los commits del proyectos
+		
+		git log --oneline --decorate --all
+		
+		(HEAD->rama-arreglo) mensaje
+		(feature) mensaje 
+		(master) mensaje
+
+		
+		Podemos ver un gráfico de todos los commits y ramas
+		
+		git log --oneline --decorate --all --graph
+
+		*codigo(rama-arreglo) mensaje
+		| *codigo(feature) mensaje 
+		|/
+		*codigo(HEAD->master) mensaje
+
+		Vemos que cambian de lugar los commits(*) anterior/sucesor
+		
+		*master tiene dos sucesores, feature y arreglo
+		
+		
+		
+	Integrar los cambios en master/main: 
+	
+		Se trata de llevar los cambios a master
+
+		Para que pueda ser utilizado como raid para hacer nuevos desarrollos y ramas. 
+		
+		
+		Miramos el estado actual de nuestro repo. 
+		
+		git log --oneline --decorate --all --graph
+		
+		
+		*codigo(HEAD->rama-arreglo) mensaje
+		| *codigo(feature) mensaje 
+		|/
+		*codigo(master) mensaje
+
+	    Tenemos un commit en master del que salen dos commits. 
+	    
+	    De dos ramas distintas: arreglo, feature. 
+	    
+	    Debemos conseguir que arreglo vuelva a master
+		
+	
+		Debemos hacer una fusion o merge. 
+		
+		Fusionamos ramas. 
+		
+		Vamos a tener una rama de origen/origin como puede ser rrama-arrego
+		
+		origen tendra una serie de cambios. 
+		
+		Y una rama de destino que puede ser master. 
+		
+		Master puede tener o no cambios. 
+		
+		Al fusionar los cambios de una rama con los cambios de otra rama. 
+		
+		Se va a unir las modificaciones que se hayan hecho en master. 
+		
+		Como las modificaciones que se hayan hecho en la otra rama. 
+		
+		
+		Nos pasamos a la rama de destino como puede ser master,  
+		
+		git checkout master
+		
+		git merge nombre-rama-origen. 
+		
+		git merge rama-arreglo
+		
+		
+		Se nos muestra varios mensajes/operaciones. 
+		
+		updating: commits
+		
+		fast-foward: estrategia/operacion 
+		
+		Sucede cuando la rama de destino (master/main) 
+		
+		No tiene commits, está limpia. 
+		
+		Mueve el puntero que está en el ultimo commit de master
+		
+		A la rama de origen, moviendolo al commit superior. 
+		
+		El commit de rama-arreglo es sucesor del que está en master. 
+		
+		Master pasa a ese commit. 
+		
+		git log --oneline --decorate --all --graph
+		
+		
+		*codigo(HEAD->master, rama-arreglo) mensaje
+		| *codigo(feature) mensaje 
+		|/
+		*codigo(master) mensaje
+
+		
+		Ahora debemos fusionar los cambios de la rama feature
+		
+		Debemos buscar el commit del que nace la rama feature. 
+		
+		Este será el commit de referencia que medirá las modificaciones. 
+		
+		Pueden ocurrir conflictos cuando modificamos la misma linea en distintas ramas/commits. 
+		
+		
+		merge ya no puede usar la estrategia de fast foward
+		
+		dado que ya hay cambios entre dos ramas. 
+		
+		Antes solo habia cambios en una. 
+		
+		
+		Usará una estrategia recursiva. 
+		
+		Para juntar cambios en una y otra rama. 
+		
+		Hará un tercer commit que integra todos los cambios hechos en ambas ramas. 
+		
+		  
+		Tendra que cumplirse como regla. 
+		
+		Qué lineas se han quitado y agregado en una y otra rama. 
+		
+		Los cambios se van a intentar aplicar a la rama de destino (master, main, prod)
+		
+		Puede suceder que lo haga sin conflictos. 
+		
+		
+		Puede haber conflicto cuando dos personas modifiquen. 
+		
+		En ramas distintas la misma linea del mismo archivo.  
+		
+		Tendremos que solucionar el conflicto mencionado. 
+		
+		
+		Las modificaciones de feature 
+	
+	    y las modificaiones de master y arreglo
+	    
+	    Fueron en archivos distintos. 
+	    
+	    
+	    Como ya estabamos en destine master, arreglo
+	    
+	    git merge feature
+	    
+	    Nos preguntará un mensaje de commit, dada que necesita un commit nuevo. 
+	    
+	    Utilizo la estrategia recursiva. 
+	    
+	    Vemos los distintos archivos modificados. 
+	    
+	    git log --oneline --decorate --all --graph 
+	    
+		
+		*codigo(HEAD->master) merge branch feature
+		|\
+		| *codigo(feature) mensaje 
+		* |codigo(rama-arreglo) mensaje
+		|/
+		*codigo (#commit referencia) mensaje
+
+	
+		Antes podiamos ver que feature no estaba unida a master. 
+		
+		Ahora el commit de HEAD->master tiene dos ancestros. 
+		El commit de feature y arreglo. 
+		
+		El commit de referencia o raid no le queda otra que hacer otro commit para unir las modificaciones de sus ramificaciones. 
+		
+		
+	
+	Resolver conflictos en merge: 
+
+		Puede haber conflicto cuando dos personas modifiquen. 
+		
+		En ramas distintas la misma linea del mismo archivo.  
+		
+		Tendremos que solucionar el conflicto mencionado. 
+		
+
+		git log --oneline --decorate --all --graph 
+
+	    *codigo(HEAD->master) merge branch feature
+		|\
+		| *codigo(feature) mensaje 
+		* |codigo(rama-arreglo) mensaje
+		|/
+		*codigo (#commit referencia) mensaje
+	    
+		
+		Crearemos una rama nueva. 
+		
+		git checkout -b feature-comercial-text
+		
+		Hacemos cambios en el proyecto con esta rama. 
+		
+		git add archivo 
+		
+		git commit 
+		
+		(mensaje)
+		
+		
+		Ahora volvemos a master para crear una nueva rama desde allí. 
+		
+		git checkout master
+		
+		git checkout -b fix-textosuperior
+		
+		Modificamos el mismo archivo y en el mismo lugar. 
+		
+		git add archivo
+		
+		git commit 
+		
+		(mensaje)
+		
+		
+		Volvemos a master para fusionar las nuevas ramas y sus cambios. 
+		
+		git checkout master
+		
+		git merge textosuperior
+		
+		Lo resuelve por fast foward porque master no se ha modificado. 
+		
+		
+		Verificamos las rmmas y cambios del proyecto
+		
+		git log --oneline --decorate --all --graph 
+
+		
+		*codigo(HEAD->master, fix-textosuperior) mensaje
+		| *codigo(feature-comercial-text) mensaje 
+		|/
+		* codigo merge branch feature
+		|\
+		| *codigo(feature) mensaje 
+		* |codigo(rama-arreglo) mensaje
+		|/
+		*codigo (#commit referencia) mensaje
+		
+		De feature vuelven a salir dos commits distintos. 
+		
+		1) feature-comercial-text y 2) fix-textosuperior. 
+		
+		
+		Ahora debemos fusionar feature-comercial-text.
+		
+		Pero hemos modificado en ambos commits el mismo archivo. 
+		
+		Como git trabaja linea a linea a la hora de fusionar. 
+		
+		Si volvemos a master o si ya estamos. 
+		
+		Y queremos hacer una fusion. 
+		
+		git merge feature-comercial-text 
+		
+		nos pide un mensaje para el tercer commit recursivo. 
+		
+		Funciona sin problemas para estos commits. 
+		
+		En el mismo archivo y en distintas ramas. 
+		
+		
+		Pero si hacemos modificaciones en la misma linea. 
+		
+		Tendremos que resolver conflictos al fusionar. 
+		
+		Creamos una rama nueva desde master (ultimo merge sin conflicto). 
+		
+		git checkout -b fix-octubre
+		
+		modificamos la linea de la fecha. 
+		
+		git add archivo
+		
+		git commit 
+		
+		(mensaje)
+		
+		
+		Nos pasamos a master 
+				
+		Ahora creamos una nueva rama desde master. 
+		
+		Para modificar la misma linea
+		
+		que el primer commit. 
+		
+		git checkout -b fix-gramatica
+		
+		git add archivo 
+		
+		git commit 
+		
+		(mensaje)
+		
+		
+		Integrar en master los cambios en las nuevas ramas. 
+		
+		feature-octubre y fix-gramatica. 
+		
+		En ambos commits hemos modificados la misma linea
+		
+		git checkout master 
+		
+		git merge fix-octubre
+		
+		funciona sin problemas por fast foward. 
+		
+		Dado que no hemos cambiado nada en master. 
+		
+		
+		Si intentamos integrar los cambios de fix-gramatica
+		
+		git merge fix-gramatica 
+		
+		Nos marca un conflicto en el archivo. 
+		
+		
+		Verificamos con git status 
+		
+		Nos dice en la situación o escenario en el que estamos. 
+		
+		No ha podido resolver la fusion. 
+		
+		
+		Git va a poner las dos ramas en el mismo archivo
+		
+		Para que elijamos cual queremos. 
+		
+		
+		<<<<< HEAD 
+		texto/contenido del archivo 
+		
+		======
+		
+		texto/contenido del archivo 
+		>>>>> fix-gramatica 
+		
+		
+		HEAD es el primer commit que se estaba intentando integrar. 
+		
+		Debemos eliminar o borrar la linea que no corresponda. 
+		
+		Y dejar la que consideremos correcta. 
+		
+		
+		Escrimos el contenido correcto. 
+		
+		Y eliminamos lo que marcha git como conflictivo. 
+		
+		Para terminar, agregamos los cambios con git add
+		
+		y hacemos un commit. 
+		
+		
+		git add archivo
+		
+		git commit 
+		
+		(mensaje)
+		
+		
+		Lo tratará como una fusion. 
+		
+		
+		
+	Conflicto en misma linea y lugar o contenido:
+	
+		
+	Git Alias: 
+	
+		Crear comandos o atajos para otros comandos. 
+		
+		Podemos crear, listar y eliminar atajos. 
+		
+		Los atajos se guardaran en la configuración de git. 
+		
+		Para modificar los atajos o los alias tenemos que usar. 
+		
+		git config 
+		
+		Se usará para modificar la configuración local del repo. 
+		
+		Y la configuración global de git. 
+		
+		
+		Para crear un atajo de log
+		
+		git log --oneline --decorate --all --graph
+		
+		usamos git config --global (para todos los repos)
+
+		Ahora debemos usar alias.nombre-alias 'nombre-comando'
+		
+		git config --global alias.lodag 'log --oneline --decorate --all --graph'
+		
+		git lodag
+		
+		
+		si hacemos un alias para log --oneline --decorate 
+		
+		git config --global alias.lod 'log --oneline --decorate'
+		
+		Le podemos seguir pasando parametros
+		
+		git lod --all --graph
+		
+		
+		alias para reset HEAD
+		
+		git config --global alias.unstage 'reset HEAD --'
+
+		
+		Cuando hacemos una modificacion equivocada a un archivo
+		
+		Y además lo agregamos. 
+		
+		git add archivo 
+		
+		Podemos usar el alias unstage para quitarlo. 
+		
+		git unstage archivo 
+		
+		
+		Mostrar la configuracion de alias. 
+		
+		git config --global --get-regexp
+		
+		get permite entrar en los ajustes
+		
+		Y regexp nos permite entrar en los ajustes con expresiones regular. 
+		
+		git config --global --get-regexp alias 
+		
+		Podemos crear un alias para esto. 
+		
+		
+		Podemos eliminar un alias 
+		
+		git config --global --unset alias.nombre-alias
+
+		
+	    Podemos crear un alias con color para log
+	    
+	    git config --global alias.lodc 'log --oneline --decorate --color'
+
+		
+		
+	Resolver conflictos: 
+	
+	
+		Cremos una rama A y nos pasamos a ella. 
+		
+		git checkout -b rama-A	
+		
+		Modificamos el archivo, lo agregamos y commiteamos. 
+		
+		git add archivo
+		
+		git commit 
+		
+		(mensaje)
+		
+		```
+		print hola mundo
+		print modificacion por rama-A
+		 
+		```
+		
+		
+		Volvemos a master para crear una ramificación sobre él. 
+		
+		git checkout master
+		
+		git checkout -b rama-B
+		
+		Modificamos el archivo, lo agregamos y commiteamos. 
+		
+		git add archivo
+		
+		git commit 
+		
+		(mensaje)
+
+		
+		```
+		print hola mundo
+		print modificacion por rama-B
+
+		```
+		
+		Modificamos la misma linea de master. 
+		
+		Como en la rama A. 
+		
+		
+		Volvemos a master
+		
+		git checkout master
+		
+		git log --oneline --decorate --all --graph
+		
+		Nos mostrar las dos ramificaciones de master con commits. 
+		
+		*codigo(rama-B) mensaje
+		| *codigo(rama-A) mensaje 
+		|/
+		* codigo (HEAD->master) mensaje
+		
+		
+		Fusionamos master con rama-B
+		
+		git merge rama-B
+		
+		Nos sale un conflicto en archivo. 
+		
+		Con git status podemos verificar el repo. 
+		
+		Debemos entrar en el archivo y arreglarlo. 
+		
+		Tenemos dos modificaciones en la misma linea de código. 
+		
+		Con distintas ramas. 
+		
+		
+		En la realidad puede suceder en los archivos de cabecera. 
+		
+		Que son distintos pero pisan la linea. 
+		
+		Comunicarse con quien intenta hacer algo parecido y llegar a la solucion comun. 
+		
+		Dejamos una linea, la otra o en una linea incluimos los dos cambios. 
+		
+		
+		git status
+		
+		Terminamos el conflicto con git commit
+		
+		
+		O si tenemos un conflicto muy grando con muchas lineas involucrada. 
+		
+		Podemos abortar la fusion. 
+		
+		git merge --abort
+		
+		Se quedará con el ultimo commit/merge intacto. 
+		
+		git log --oneline --decorate --all --graph
+		
+		*codigo (HEAD->master, rama-A)
+		*codigo mensaje (inicio repo)
+		
+		Y comunicarse con el equipo. 
+		
+		
+		Git siempre actua de forma local, los conflictos estan en tu pc. 
+		
+		El conflicto no lo tienen los demas. 
+		
+		En SVN estan en un servidor y es más complicado. 
+		
+		
+	
+	Etiquetas/tags: 		
+		
+		Podemos identificar commits particulares con algun tipo de alias.
+		
+		O muy importante, especial; como un commit que termina una version. 
+		
+		Reemplazará a su hash sha1
+		
+		
+		Por ejemplo podemos marcar una fusion importante. 
+		
+		codigo (HEAD->master) Merge branch fix-gramatica
+		
+		Al construir un tag se crea un alias asociado a este commit. 
+		
+		 
+		git tag nombre-alias-commit1
+		
+		git tag v0.2.0 (refiere directamente a HEAD)
+		
+		
+		Es el uso normal, para etiquetar las versiones de un programa.
+		
+		Para detectar estas versiones y arreglar bugs que vayan surgiendo. 
+		
+		En el commit anterior aparecera este tag
+		
+		
+		codigo (HEAD->master, tag: v0.2.0) Merge branch fix-gramatica
+		
+		
+		Para crear un tag que no apunte a HEAD
+		
+		git tag v0.1.0 codigo_commit
+		 
+		codiog(tag: v0.1.0) mensaje 
+		
+		
+		Los hash de tipo objeto no son de una linea
+		
+		Son objetos completos que pueden tener una descripcion 
+		
+		Un autor o una firma. 
+		
+		
+		Podemos volver a ese commit usando el tag. 
+		
+		git checkout v0.1.0
+		
+		Nos sale una descripción y cosas que podemos hacer. 
+		
+		Podemos revisar su status, commit y directorio, archivos.
+		
+		git status
+		
+		Volvemos a git log graph 
+		
+		
+		Podemos crear una rama sobre este viejo commit. 
+		
+		git checkout -b fix-0.1.1
+		
+		
+		Volvemos a master 
+		
+		git checkout master
+		
+		git log graph
+		
+		
+		Podemos ver la nueva rama. 
+		
+		codigo (tag: v0.1.0, fix-0.1.1) mensaje 
+		
+		
+		Podemos listar los tags 
+		
+		git tag
+		
+				
+		git tag -h, proporciona mas comandos para ellos. 
+		
+		
+		Creamos uno nuevo y lo eliminamos 
+		
+		git tag v0.1.1 codigo_commit
+		
+		Ahora lo podemos eliminar 
+		
+		git tag -d v0.1.1
+
+		
+		
+	Tags anotados: 
+		
+		La carpeta .git almacena todo lo que hacemos con él. 
+		
+		objetos: guarda los commits, los archivos agregados. 
+		
+		refs: punteros, referencias que apuntan a otros objetos. 
+		
+		Como las ramas, HEAD y tags que apuntan a un commit. 
+		
+		En la carpeta refs esta la carpeta heads y tags. 
+		
+		En heads estan las ramas. 
+		
+		Al examinar el contenido de estos archivos. 
+		
+		Tienen una linea de 40 caracteres que apuntan al commit. 
+		
+		Al que apuntan actualmente. 
+		
+		```
+		cat heads/master
+		
+		```
+		
+		salida: codigo del commit
+		
+		Verificamos esto con git log
+		
+		
+		Para las ramas. 
+		
+		```
+		cat heads/*
+		
+		```
+		
+		verificamos que las ramas solo son archivos con punteros. 
+		
+		Que apuntan a un commit particular. 
+		
+		
+		Con los tags es igual. 
+		
+		Creamos tags ligeros que son punteros iguales a las ramas
+		
+		Con diferencia que las tags no se mueven. 
+		
+		
+		```
+		ls tags
+		
+		```
+		v0.1.0 v0.2.0
+		
+		
+		```
+		ls tags/v0.1.0
+		
+		```
+		codigo commit 
+		
+		
+		Las etiquetas anotadas no solamente son punteros a un commit. 
+		
+		Le podemos agregar información. 
+		
+		
+Las		Cuando tenemos que tag importante como la publicación
+
+		De una nueva version de la app. 
+		
+		Se explicaría los cambios 
+		
+		Caracteristicas nuevas
+		
+		Correcciones de bugs
+		
+		El soporte de una herramienta
+		
+		
+		Se pueden firmar para asegurar la autenticidad de un tag. 
+		
+		
+		Crear un tag anotado: 
+		
+		Con git tag -l podemos ver todos los tagas 
+		
+		v0.1.0 y v0.2.0 
+
+		
+		Y tambien podemos usarlo para filtrar cuando tenemos muchos. 
+		
+		git tag -l "v0.1.*"
+		
+		o
+		
+		git tag -l "v0.*.0"
+
+		
+		Eliminamos los tags simples que tenemos. 
+		
+		git tag -d v0.1.0"
+		
+		git tag -d v0.2.0"
+		
+		
+		Crear tags anotados
+		
+		git tag -a v0.1.0
+		
+		Saldra un pantalla o editor para escribir un mensaje. 
+		
+		Escribiremos todo lo que introduce esta nueva version
+		
+		
+		Con los tags anotados podemos ver más información sobre los tags
+		
+		git show v0.1.0 
+		
+		Muestra información detallada. 
+		
+		Como el autor, fecha y hora del tag
+		
+		la descripción proporcionada, el commit 
+		
+		Las lineas que se agregaron y quitaron. 
+		
+		
+		git show tambien sirve para ver información sobre las otras ramas. 
+		
+		git show master 
+		
+		git show codigo_commit 
+		
+		
+	
+	Stash: 	
+		
+		Si por una emergencia tenemos que cambiar de rama. 
+		
+		Cuando ya tenemos modificaciones. 
+		
+		Pero que no estan listas, ni podemos hacer add y commit. 
+		
+		Tampoco queremos deshacernos de estos cambios avanzados. 
+		
+		
+		Escenario: 
+		
+		Hicimos modificaciones a un archivo 
+		
+		Hacemos un git add
+		
+		Y antes de hacer un commit, tenemos una emergencia. 
+		
+		Debemos cambiar de rama. 
+		
+		
+		El problema es que tenemos el working directory ocupado. 
+		
+		Y tenemos en stage cosas para hacer commit. 
+		
+		Aquí es donde podemos usar stash para guardar cambios provisorios. 
+		
+		git stash
+		
+		Lo guardará en el repo, en stash. 
+		
+		Lo guarda y limpia el working directory. 
+		
+		
+		git stash list
+		
+		
+		Entonces: 
+		
+		modificaciones
+		
+		git add archivo
+		
+		git status (opcional)
+		
+		git stash 
+		
+		git status
+		
+		git stash list
+		
+		
+		Podemos ver todas las cosas que tenemos en stash. 
+		
+		stash@{0}:wp on nombre-rama mensaje 
+		
+		Podemos personalizar los mensajes que se guardan en el stash
+		
+		Para darle nombre descriptivo. 
+		
+		
+		Nos cambiamos a master
+		
+		git checkout master 
+		
+		Despues de arreglar la urgencia. 
+		
+		
+		Queremos volver a lo que estabamos haciendo. 
+		
+		Nos pasamos a la rama en la que estabamos trabajando. 
+		
+		git checkout nombre-rama
+		
+		
+		Podemos usar git stash -h para ver subcomandos
+		
+		Si usamos git stash apply
+		
+		Podemos aplicar los cambios que hay en el ultimo stash. 
+		
+		Que estaba en el working directory. 
+		
+		
+		Los stash son como una pila. 
+		
+		Podemos stashear tantas cosas como necesitamos. 
+		
+		Van a ir entrando a lo alto. 
+		
+		Se aplican del más reciente al ultimo que haya. 
+		
+		
+		Al usar git stash apply
+		
+		Nos dice que se ha modificado el archivo
+		
+		```
+		modified: archivo 
+		
+		```
+		
+		Ahora podemos deshacernos del stashear
+		
+		git stash list 
+		
+		```
+		stash@{0}:wp on nombre-rama mensaje 
+
+		```
+		
+		Con git stash drop quedará eliminado stash@{0}
+		
+		
+		Dar un mensaje descriptivo al stash 
+		
+		git stash save "mensaje"
+		
+		Lo verificamos con git stash list 
+		
+		
+		Podemos hacer más modificaciones a un archivo. 
+		
+		Hacemos un stash utilizando un mensaje directamente. 
+		
+		git stash save "mensaje" 
+		
+		Si podemos stash list
+		
+		vemos la pila y su indice. 
+		
+		stash@{0} rama mensaje 
+		stash@{1} rama mensaje 
+
+		
+		Para obtener más info sobre el stash podemos usar show. 
+		
+\		git stash show stash@\{0\}
+		
+		Con git stash apply aplicamos el primero de la pila {0}
+		
+		
+		Con git checkout -- archivo 
+		
+		Eliminamos las modificaciones en archivo. 
+		
+		
+		Podemos aplicar y despues eliminar el stash en un comando. 
+		
+		git stash pop 
+		
+		
+		No hace falta escribir apply. 
+		
+		Siempre podemos pasarle el identificador del stash 
+		
+		git stash stash{0} o lo que sea. 
+		
+		git stash aplica para pop y para apply. 
+
+		
+		Una buena practica es escribir siempre un mensaje. 
+		
+		Se olvida rapido que es lo que habia. 
+		
+		
+		Otra practica puede ser convertir el stash en una rama. 
+		
+		git stash branch nombre-rama-nueva identificadorStash{}
+		
+		git stash branch rama-nueva stash{0}
+		
+		
+		
+	Git remoto: 
+	
+		Es el caso cuando distribuimos el repositorio en internet. 
+		
+		Como sistema de control de versiones distribuido. 
+		
+		No tiene noción de cliente servidor. 
+		
+		
+		En caso de un sistema de control de versiones centralizado. 
+		
+		Como SVN, tenemos el repo en nuestra pc, pero siempre esta en sincronización en un repo central que es el servidor.
+		
+		Al trabajar en nuestro repo, la copial local tiene que acceder al servidor para comprobar el estado. 
+		
+		Siempre hay interacción cliente-servidor. 
+		
+		Si internet el repo no funciona. 
+		
+		
+		En git las pc forman nodos independientes entre si. 
+		
+		Podemos comunicarnos con otros nodos y ellos con nosotros. 
+		
+		Para intercambiar código con pull y push. 
+		
+		
+		El comando git remote nos permitirá agregar remotos. 
+		
+		Conectar pcs en los que querramos interactura con ellos. 
+		
+		Enviandoles código. 
+		
+		
+		git pull nos servirá para recibir código de ese remoto. 
+		
+		git push para enviar código al remoto. 
+		
+		
+		Un remoto puede ser el repo de un compañero. 
+		
+		Si queremos enviarle código hacemos push. 
+		
+		O el hace un pull de nuestro repo. 
+		
+		Si queremos recibir código hacemos pull o el hará push 
+		
+		
+		En el caso de git un servidor central será un servicio alojamiento. 
+		
+		Para almacenar una copia de seguridad y su vez que todos puedan acceder. 
+		
+		Podrán acceder al repo para todo tipo de operaciones. 
+		
+		Como enviar y recibir código, comunicarse, pedir o dar código, opinión, etc. 
+		
+		
+		Aunque todo esto podemos hacerlo persona a persona o pc a pc, en este servicio de alojamiento. 
+		
+		Podemos agregar remotos, enviar cambios a ellos. 
+		
+		Obtener cambios, el remoto puede estar en nuestro pc. 
+		
+		Fuera o en nuestra misma red con ssh. 
+		
+		O enviar cambios a servicios de alojamiento. 
+	
+		
+		
+	git push: 
+	
+		Los servicios de alojamiento pueden ofrecer herramientas como: 
+		
+		Crear un proyecto. 
+		
+		issues tracker para que los usuario puedan informar bugs. 
+		
+		wik para dar información sobre el proyecto. 
+		
+		merge request para que las personas puedan mandar una fusion remota desde su repo local de este proyecto. 
+		
+		
+		Conectar repo local con repo remoto. 
+		
+		Tiene distintos protocolos para repos remoto. 
+		
+		Como ssh o https. 
+		
+		Podemos sincronizar nuestros repo remoto 
+		
+		Conectar otras pcs remotas con ssh
+		
+		También con HTTPS para clonar otro repo. 
+		
+		Vamos a tener que autenticarnos con claves usuario/contraseña.
+		
+		U otro tipo de key. 
+		
+		
+		Creamos un repo
+		
+		Copiamos la dirección HTTPS del proyecto remoto alojado en el servicio. 
+		
+		git remote add nombre-repo-a-construir o escribimos origin
+		
+		origin como estandar es para marcar que es el origen cuando no tenemos alguno más. 
+		
+		git remote add origin dirección-HTTPS o la dirección del servidor de empresa. 
+		
+		
+		git remote nos da los repos agregados. 
+		
+		git remote -v nos da info sobre el repo como: 
+		
+		origin dirección HTTPS/server, etc (fetch)
+		
+		origin dirección HTTPS/server, etc (push)
+		
+		
+		git push 
+		
+		Debemos indicar el remoto que queremos mandar codigo
+		
+		La rama local que queremos unir al remoto
+		
+		git origin master 
+		
+		o git origin --all para unir todas las ramas. 
+		
+		Debemos autenticarnos. 
+		
+		
+		
+	git clone
+		
+		Debemos proporcionar al dirección y autenticarnos. 
+		
+		Podemos ponernos a trabajar en el. 
+		
+		Para pushear código
+		
+		Cuando creamos un repo clonado 
+		
+		Se nos asocia un remoto 
+		
+		git remote -v 
+		
+		origin 
+		
+		
+		Modificamos archivos en nuestra copia locales
+		
+		Lo agregamos con git add archivo / git add . 
+		
+		git commit 
+		
+		(mensaje)
+		
+		git push origin master 
+		
+		
+		Ahora podemos traer cambios nuevos con git pull
+		
+		Indicamos el remoto, origin que es el nombre que le pusimos. 
+		
+		Y la rama a la que queremos bajar todo ese código. 
+		
+		git pull origin master 
+		
+		Como es una conexión HTTPS nos pide autent key user/pass
+		
+		
+		Vemos que descargará las modificaciones. 
+		
+		*branch          master   ->FETCH_HEAD
+		codigo_commit    master   ->origin/master 
+		
+		
+		Tambien apareceran otras etiquetas, punteros, ramas, etc. 
+		
+		codigo_commit (HEAD -> master, origin/master, origin/HEAD) mensaje 
+		
+		En git los remotos no son mas que ramas. 
+		
+		
+		git branch
+		*master   
+		
+		git branch --all
+		*master 
+		  remote/origin/HEAD -> origin/master 
+		  remote/origin/master 
+		  
+		remote marca las ramas que tiene que ver con los remotos. 
+		  
+		origin es el nombre del remoto al que nos conectamos
+		  
+		master es el nombre de la rama remota. 
+		
+		HEAD marcha que hay un HEAD en el remoto que es master. 
+		
+		
+	fetch y pull rebase: 
+	
+		git pull es una combinación de dos comandos. 
+		
+		git fetch pregunta si hay modificaciones en el remoto 
+		
+		y descargarlas. 
+		
+		
+		git fetch origin 
+		
+		Se conectará al remoto para comprobar si tiene modificaciones. 
+		
+		La descargará directamente desde la rama que esta modificada. 
+		
+		Dentro de una serie de ramas que empiezan con origin/master. 
+		
+		codigo_commit master    ->origin/master
+		
+		
+		Con git branch --all 
+		
+		Podemos ver todas las ramas más alla de master. 
+		
+		De hecho podemos movernos a esas ramas. 
+		
+		git checkout origin/master
+		
+		
+		Lo segundo que va a hacer fetch una vez descargado las modificaciones 
+		
+		Es fusionarlas la rama que le hayamos dicho con pull
+		
+		Si pusimos git pull origin master 
+		
+		Va a fusionar esas modificaciones con la rama master 
+		
+		
+		Nos pasamos a git checkout master. 
+		
+		La segunda parte del pull 
+		
+		Es el merge entre la rama remota y la rama local. 
+		
+		git merge origin/master 
+		
+		
+		Todo este proceso es lo mismo que si hicieramos 
+		
+		git pull origin master 
+		
+		Pueden suceder conflictos como hemos visto anteriormente. 
+		
+		
+		Antes de hacer un commit podemos hacer un fetch para traernos las modificaciones
+		
+		o podemos hacer un rebase. 
+			
+		git pull --rebase origin master 
+		
+		Va a usar una estrategia de rebobinar para que no se rompa el historial
+		
+		Dado que las modificaciones se hacen en distinto tiempo. 
+		
+		
+		Al hacer pull directamente deja commit que no son relevantes en el historial. 
+		
+		
+	
+	git rebase: 
+	
+		Cuando teniamos modifiaciones en una rama remotas
+		
+		Y al mismo tiempo en una rama local. 
+		
+		Para evitar que se creen commits no utiles. 
+		
+		
+		Tenemos nuestro repo local 
+		
+		Creamos una rama para agregar nuevas caracteristicas. 
+		
+		hacemos modificaciones
+		
+		agregamos archivo
+		
+		commiteamos 
+		
+		(mensaje)
+		
+		
+		Ahora hacemos más combios
+		
+		agregamos archivo, commiteamos, (mensaje)
+		
+		
+		Ahora tenemos una urgencia, nos pasamos a master
+		
+		Solucionamos con un cambio en master 
+		
+		
+		Ahora volvemos a la nueva rama anterior 
+		
+		hacemos mas cambios y terminamos el trabajo en esta rama.
+		
+		
+		Si en nuestro repo local hacemos un merge 
+		
+		Va a usar una estrategia recursiva. 
+		
+		Todo esto paso en nuestro repo local. 
+		
+		En un commit que no es muy util. 
+		
+
+Cp		Con git rebase podemos evitar este commit
+		
+		Reescribirá el historial. 
+		
+		Esto se hace con cosas que no hayan sido pusheadas. 
+		
+		
+Pe		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+			
+
+		
+		
+		
+		
+
+
+
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+C		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+de
+
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 
 
